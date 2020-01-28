@@ -1,0 +1,168 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title: (dessin systeme L --- IFT2015 hiver 2020)
+%%Creator: (moi)
+%%BoundingBox: 0 0 500 500 
+%%EndComments
+
+% 
+% %%BeginProlog ... %%EndProlog sont des commentaires de structuration de document 
+% pour donner les definitions de nouvelles "ressources" (opŽrateurs, polices, etc) 
+
+
+%
+% %%BeginResource...%%EndResource enferment une ressource 
+% comme un ensemble d'operateurs (procset). 
+%
+
+%%BeginProlog
+%%BeginResource: procset (graphisme tortue) 1.0 0
+
+% --------- definition d'operations pour graphisme tortue
+%
+% Le systeme de coordonnes suit les deplacements et tours de la tortue,
+% de maniere a ce que la tourtue est toujours a l'origine avec le next tourne 
+% vers l'axe X. 
+% 
+% Operations: 
+% T:move avance la tortue 
+% T:draw avance la tortue en dessinant une ligne entre les points de depart et arrivee
+% T:turn tourne le nez de la tortue
+
+/T:move % d T:move -
+	% avance la tortue par d (nombre --- positif, negatif ou 0)
+{
+	0 translate % mettre l'origin a cette nouvelle position
+} def
+
+/T:draw % d T:draw -
+	% avance la torue par d en dessinant une ligne
+{
+	newpath 
+	0 0 moveto
+	0 lineto
+	currentpoint 
+	stroke 
+	translate 
+} def
+
+/T:turn % angle T:turn -
+	% tourne le nez de la tourtue par l'angle (en degres)
+{
+	rotate
+} def
+
+/T:init % x y angle T:init -
+	% etat initiel de la tortue
+{	
+	3 1 roll translate
+	rotate 
+} def
+
+%%EndResource
+
+%%BeginResource: procset (regle aleatoire) 1.0 0
+
+realtime srand % graine aleatoire --- pendant les tests, utiliser une valeur fixe (p.e., 2015 rand) si necessaire pour repetabilite
+
+/L:rnd % [op1 op2 ...] L.rnd -
+	% choisit un operateur au hasard et l'execute
+	% op1, op2 etc sont des noms (commencent par /)
+{
+	rand % nombre aleatoire entre 0 et 2^31-1
+	1 index length % longueur du tableau 
+	mod % nombre aleatoire entre 0 et len-1
+	get 
+	cvx % conversion a executable 
+	exec % executer
+} def
+
+%%EndResource
+
+% 
+% La reste du fichier est genere par votre traducteur. Il n'est pas necessaire d'ecrire des 
+% commentaires. 
+% ---------------- BEGIN
+
+%%BeginResource: procset (systeme L) 1.0 0
+
+/L:d 2 def % deplacement par defaut 
+/L:a 22.5 def % angle par defaut
+
+
+/F1 % iter F1 - 
+	% expansion par regle 1: F->F[+F]F[-F]F
+	% en une iteration
+{
+	dup F  % dupliquer iter pour les appels suivants a F 
+	gsave % on encode '[' par l'operateur gsave qui sauvegarde l'etat courant du contexte graphique, incluant la tortue 
+	L:a T:turn % +
+	dup F
+	grestore % on encode ']' par l'operateur grestore qui retablit le contexte graphique plus recemment sauvegarde par gsave
+			% gsave - grestore fonctionne comme push-pop sur une pile speciale	
+	dup F 
+	gsave % [
+	L:a neg T:turn % -
+	dup F 
+	grestore % ]
+	F % ne pas dupliquer la variable d'iteration dans le dernier appel
+} def
+
+/F2 % iter F2 - 
+{
+	% expansion par regle 2: F[+F]F
+
+	dup F  
+	gsave % [
+	L:a T:turn % +
+	dup F
+	grestore % ]
+	F 
+} def
+
+/F3 % iter F3 - 
+{
+	% expansion par regle 3: F[-F]F
+
+	% pile: iter 
+	dup F  
+	gsave % [
+	L:a neg T:turn % -
+	dup F
+	grestore % ]
+	F 
+} def
+
+/F % iter F - % la valeur iter donne la profondeur de la recursion
+{
+	dup % dupliquer la valeur parce eq va la consumer
+	0 eq 
+	{ % if: cas de base --- bousculer la tortue
+		L:d T:draw % f serait implante par T:move
+		pop % enlever le '0'
+	}
+	{ % else: expansion par une regle au hasard
+		1 sub % decrementer la variable iter
+		[/F1 /F2 /F3] L:rnd % <<= c'est ou on choisit les regles possibles 
+	} ifelse
+} def
+
+/omega % 
+{
+	F
+} def
+
+%%EndResource
+%%EndProlog
+
+% ------- fin de definitions, dessin commence ici
+
+
+250 0 % x0 y0
+90 % angle initial
+T:init
+
+6 % nombre d'iterations 
+omega % symbole de debut
+
+% le fichier doit finir par le commentaire special %%EOF
+%%EOF
