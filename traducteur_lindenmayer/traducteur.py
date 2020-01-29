@@ -1,7 +1,7 @@
 from constants import *
 import json
 from sys import argv ## to retrieve command line arguments
-import json
+
 
 
 #This function create a x.eps file with the content we provide in the template
