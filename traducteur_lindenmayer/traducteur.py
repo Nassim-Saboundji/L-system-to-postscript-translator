@@ -59,7 +59,7 @@ def create_axiom_code():
     operator_axiom = "/" + axiom
 
     rules = get_data_dico("rules")[axiom]
-    print(rules)
+    #print(rules)
 
     if len(rules) > 1 :
         #will contain the different rules for the same axiom.
@@ -69,19 +69,90 @@ def create_axiom_code():
         for i in range(length):
             string = operator_axiom + str(i+1) 
             operator_table.append(string)
-        print(operator_table)    
+        #print(operator_table)    
         
         operator_options = " ".join(operator_table)
-        print(operator_options)
+        #print(operator_options)
 
         #code is generated here with formatting.
-        body = operator_axiom + "\n" + """{\n \tdup\n \t0 eq\n\t{\n\t\tL:d T:drawn
+        body = operator_axiom + "\n" + """{\n \tdup\n \t0 eq\n\t{\n\t\tL:d T:draw
         pop\n\t}\n\t{\n\t\t1 sub\n\t\t"""+ "[" + operator_options + "]"+ """ L:rnd\n\t}ifelse
         \n}def """
         #code is written in the already made .eps file
         append_eps_with(body)
     else:
-        print("Create the code directly TODO!")
+        create_rule_code(axiom, 0, True)
+
+
+
+#take a symbol of type string
+# from the actions and returns the associated
+# postscript code for this action.
+def action_detector(action_symbol):
+    #will get the action associated to a symbol
+    #i.e: "]" => "pop" action = "pop"
+    action = get_data_dico("actions")[action_symbol]
+    
+    switcher = {
+        "draw" : "dup " + action_symbol,
+        "turnL" : "L:a neg T:turn",
+        "turnR" : "L:a T:turn",
+        "push": "gsave",
+        "pop": "grestore"
+    }
+    return switcher.get(action, "nothing") 
+
+
+#creates postscript code for a given rule.
+#specificing the version which is an index when multiple rules
+#exists for a given symbol. 0 1 2 --> 3 versions of the expansion exists
+# at index 0 1 and 2
+
+# the only_one? argument is a boolean that tells the function
+# if or if not there exist only one version of the rule_symbol provided.
+def create_rule_code(rule_symbol, version, only_one):
+    
+    # the rule is given back as a string ex: "FF-[-F+F+F]+[+F-F-F]"
+    rule = get_data_dico("rules")[rule_symbol][version]
+    
+    code_table = []
+    
+    if only_one == False: #this rule has multiple extension possible
+        for i,symbol in enumerate(rule):
+            if rule.rfind(rule_symbol) == i: #rfind finds the index of the last occurence
+                code_table.append(symbol)    #of the rule_symbol in the string "rule".
+            else:
+                code_table.append(action_detector(symbol))
+
+        #generates the postscript code.
+        append_eps_with("/" + rule_symbol + "\n")
+        append_eps_with("{\n")
+        for code in code_table:
+            append_eps_with("\t" + code + "\n")
+        append_eps_with("\n}def\n")        
+                
+    else: #this rule only has one expansion possible.
+
+        for i,symbol in enumerate(rule):
+            if rule.rfind(rule_symbol) == i: #rfind finds the index of the last occurence
+                code_table.append(symbol)    #of the rule_symbol in the string "rule".
+            else:
+                code_table.append(action_detector(symbol))
+
+        append_eps_with("/" + rule_symbol + "\n")
+        append_eps_with("{\n")
+        append_eps_with("\tdup 0 eq \n")
+        append_eps_with("\tpop")
+        append_eps_with("\t{\n")
+        append_eps_with("\t L:d T:draw \n")
+        append_eps_with("\t}{\n")
+        for code in code_table:
+            append_eps_with("\t\t" + code + "\n")
+        append_eps_with("\t}ifelse \n")
+        append_eps_with("}def\n")
+
+    return code_table
+        
 
 
 #contains tests for now
@@ -91,6 +162,9 @@ def main():
     create_Ld_code()
     create_La_code()
     create_axiom_code()
+    #print(create_rule_code("F", 0, False))
+    #print(create_rule_code("F", 0, True))
+    #print(action_detector("F"))
     #append_eps_with(example_1)
     #create_eps_with(original_lindenmayer)
     #print(get_data_dico("axiom"))
