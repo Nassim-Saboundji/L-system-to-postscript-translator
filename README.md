@@ -1,0 +1,12 @@
+# L-system-to-postscript-translator
+A python program that takes an L-System and outputs a Postscript program that draws plants or other shapes.
+
+An L-system is a set of rules and axioms that is used to model the growth of plants. It's also used in various other applications.
+
+My program takes in json file that contains rules and an axiom and outputs a postscript file.
+This postscript file when opened presents a drawing that was made following the rules of that L-System in the json file.
+
+To run my program, simply type this command:
+
+python3 traducteur.py your_file.json [a number from 1 to ... which represents the number of iterations.]
+
