@@ -104,14 +104,6 @@ def create_axiom_code(symbol):
 
 
 
-# TODO!
-# create code for other rules that have multiple versions
-# will likely call creator_operator_code
-# will be similar to create_axiom_code except that 
-# it will be with any rule that isn't the axiom and has
-# multiple versions.
-#def create_expansion_code():
-
 
 #take a symbol of type string
 # from the actions and returns the associated
