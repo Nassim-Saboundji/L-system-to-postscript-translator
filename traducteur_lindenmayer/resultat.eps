@@ -99,4 +99,44 @@ realtime srand % graine aleatoire --- pendant les tests, utiliser une valeur fix
 		[/F1 /F2 /F3] L:rnd
 	}ifelse
         
-}def 
+}def
+/F1
+{
+	dup F
+	gsave
+	L:a T:turn
+	dup F
+	grestore
+	dup F
+	gsave
+	L:a neg T:turn
+	dup F
+	grestore
+	F
+
+}def
+/F2
+{
+	dup F
+	gsave
+	L:a T:turn
+	dup F
+	grestore
+	F
+
+}def
+/F3
+{
+	dup F
+	gsave
+	L:a T:turn
+	dup F
+	grestore
+	dup F
+	gsave
+	L:a neg T:turn
+	dup F
+	grestore
+	F
+
+}def

@@ -53,6 +53,10 @@ def create_La_code():
 # a random selection of the rule to follow.
 # if there is only one rule the code for the rule is going
 # to be written instead of the above.
+
+
+# will return an operator table that will be used
+# to create the code for each one of them.
 def create_axiom_code():
     axiom = get_data_dico("axiom")
     
@@ -69,7 +73,8 @@ def create_axiom_code():
         for i in range(length):
             string = operator_axiom + str(i+1) 
             operator_table.append(string)
-        #print(operator_table)    
+        print(operator_table)    
+        
         
         operator_options = " ".join(operator_table)
         #print(operator_options)
@@ -77,12 +82,23 @@ def create_axiom_code():
         #code is generated here with formatting.
         body = operator_axiom + "\n" + """{\n \tdup\n \t0 eq\n\t{\n\t\tL:d T:draw
         pop\n\t}\n\t{\n\t\t1 sub\n\t\t"""+ "[" + operator_options + "]"+ """ L:rnd\n\t}ifelse
-        \n}def """
+        \n}def\n"""
         #code is written in the already made .eps file
         append_eps_with(body)
+        return operator_table
     else:
         create_rule_code(axiom, 0, True)
+        return -1
 
+
+
+# TODO!
+# create code for other rules that have multiple versions
+# will likely call creator_operator_code
+# will be similar to create_axiom_code except that 
+# it will be with any rule that isn't the axiom and has
+# multiple versions.
+#def create_expansion_code():
 
 
 #take a symbol of type string
@@ -109,8 +125,11 @@ def action_detector(action_symbol):
 # at index 0 1 and 2
 
 # the only_one? argument is a boolean that tells the function
-# if or if not there exist only one version of the rule_symbol provided.
-def create_rule_code(rule_symbol, version, only_one):
+# if or if not there exist only one version of the expansion of the rule_symbol provided.
+
+# title_number specifiy which version of the rule if there is more than one rule
+# otherwise you can put 0
+def create_rule_code(rule_symbol, version, only_one, title_number):
     
     # the rule is given back as a string ex: "FF-[-F+F+F]+[+F-F-F]"
     rule = get_data_dico("rules")[rule_symbol][version]
@@ -125,7 +144,7 @@ def create_rule_code(rule_symbol, version, only_one):
                 code_table.append(action_detector(symbol))
 
         #generates the postscript code.
-        append_eps_with("/" + rule_symbol + "\n")
+        append_eps_with("/" + rule_symbol + str(title_number) + "\n")
         append_eps_with("{\n")
         for code in code_table:
             append_eps_with("\t" + code + "\n")
@@ -142,7 +161,7 @@ def create_rule_code(rule_symbol, version, only_one):
         append_eps_with("/" + rule_symbol + "\n")
         append_eps_with("{\n")
         append_eps_with("\tdup 0 eq \n")
-        append_eps_with("\tpop")
+        append_eps_with("\tpop\n")
         append_eps_with("\t{\n")
         append_eps_with("\t L:d T:draw \n")
         append_eps_with("\t}{\n")
@@ -155,13 +174,32 @@ def create_rule_code(rule_symbol, version, only_one):
         
 
 
+# creates the code for every different expansion version of a rule 
+# operators is a list containing string names for each the versions of a rule.
+# symbol is the symbol of the left side of a rule example: F -> F-F 
+def create_operator_code(operators, symbol):
+    nb_operators = len(operators)
+    
+    for i in range(nb_operators):
+        create_rule_code(symbol, i, False, i+1)
+    
+
+
+
 #contains tests for now
 def main():
 
     create_eps_with(template)
     create_Ld_code()
     create_La_code()
-    create_axiom_code()
+
+    #checks if we have operators we need to create the code
+    #for.
+    operator_table = create_axiom_code()
+    if operator_table != -1:
+        print("we have operators")
+        create_operator_code(operator_table, get_data_dico("axiom"))
+
     #print(create_rule_code("F", 0, False))
     #print(create_rule_code("F", 0, True))
     #print(action_detector("F"))
