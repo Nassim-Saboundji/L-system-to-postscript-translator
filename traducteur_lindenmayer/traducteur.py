@@ -87,7 +87,7 @@ def create_axiom_code():
         append_eps_with(body)
         return operator_table
     else:
-        create_rule_code(axiom, 0, True)
+        create_rule_code(axiom, 0, True, None)
         return -1
 
 
@@ -195,10 +195,17 @@ def main():
 
     #checks if we have operators we need to create the code
     #for.
-    operator_table = create_axiom_code()
+    operator_table = create_axiom_code() #creates the axiom code and returns a list if 
+                                         #there is multiple versions possible.
+    print(operator_table)
     if operator_table != -1:
         print("we have operators")
         create_operator_code(operator_table, get_data_dico("axiom"))
+
+    if len(get_data_dico("rules")) > 1:
+        print("there is something else we need to generate code for")
+
+
 
     #print(create_rule_code("F", 0, False))
     #print(create_rule_code("F", 0, True))

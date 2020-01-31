@@ -84,59 +84,29 @@ realtime srand % graine aleatoire --- pendant les tests, utiliser une valeur fix
 % commentaires. 
 % ---------------- BEGIN
 
-/L:d 2 def
-/L:a 22.5 def
-/F
+/L:d 1.5 def
+/L:a 60 def
+/L
 {
- 	dup
- 	0 eq
+	dup 0 eq 
+	pop
 	{
-		L:d T:draw
-        pop
-	}
-	{
-		1 sub
-		[/F1 /F2 /F3] L:rnd
-	}ifelse
-        
-}def
-/F1
-{
-	dup F
-	gsave
-	L:a T:turn
-	dup F
-	grestore
-	dup F
-	gsave
-	L:a neg T:turn
-	dup F
-	grestore
-	F
-
-}def
-/F2
-{
-	dup F
-	gsave
-	L:a T:turn
-	dup F
-	grestore
-	F
-
-}def
-/F3
-{
-	dup F
-	gsave
-	L:a T:turn
-	dup F
-	grestore
-	dup F
-	gsave
-	L:a neg T:turn
-	dup F
-	grestore
-	F
-
+	 L:d T:draw 
+	}{
+		dup L
+		L:a T:turn
+		dup R
+		L:a T:turn
+		L:a T:turn
+		dup R
+		L:a neg T:turn
+		dup L
+		L:a neg T:turn
+		L:a neg T:turn
+		dup L
+		L
+		L:a neg T:turn
+		dup R
+		L:a T:turn
+	}ifelse 
 }def
