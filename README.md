@@ -11,6 +11,6 @@ This postscript file when opened presents a drawing that was made following the 
 
 To run my program, simply type this command:
 
-python3 traducteur.py your_file.json [a number from 1 to ... which represents the number of iterations.]
+`python3 traducteur.py your_file.json [a number from 1 to ... which represents the number of iterations.]`
 
 ![](https://i.ibb.co/g9hF6jL/202002021605511001.jpg)
