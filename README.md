@@ -1,4 +1,4 @@
-![](https://ibb.co/2kdNB9b)
+![](https://i.ibb.co/sVqHrfB/202002021605511000.jpg)
 
 # L-system-to-postscript-translator
 A python program that takes an L-System and outputs a Postscript program that draws plants or other shapes.
