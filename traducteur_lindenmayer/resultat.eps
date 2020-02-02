@@ -84,33 +84,48 @@ realtime srand % graine aleatoire --- pendant les tests, utiliser une valeur fix
 % commentaires. 
 % ---------------- BEGIN
 
-/L:d 1 def
-/L:a 60 def
-/L
+/L:d 3 def
+/L:a 22.5 def
+/F
 {
 	dup 0 eq 
 	pop
 	{
 	 L:d T:draw 
 	}{
-		dup R
+		dup F
+		dup F
+		L:a neg T:turn
+		gsave
+		L:a neg T:turn
+		dup F
 		L:a T:turn
-		L
+		dup F
 		L:a T:turn
-		dup R
+		dup F
+		grestore
+		L:a T:turn
+		gsave
+		L:a T:turn
+		dup F
+		L:a neg T:turn
+		dup F
+		L:a neg T:turn
+		F
+		grestore
 	}ifelse 
 }def
-/R
+/omega
 {
-	dup 0 eq 
-	pop
-	{
-	 L:d T:draw 
-	}{
-		dup L
-		L:a neg T:turn
-		R
-		L:a neg T:turn
-		dup L
-	}ifelse 
-}def
+    F
+} def
+
+%%EndResource
+%%EndProlog
+250 0
+90
+T:init
+
+6
+omega
+%%EOF

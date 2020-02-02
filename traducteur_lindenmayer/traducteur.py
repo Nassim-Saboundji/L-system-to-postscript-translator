@@ -187,6 +187,21 @@ def create_operator_code(operators, symbol):
     for i in range(nb_operators):
         create_rule_code(symbol, i, False, i+1)
     
+def create_omega_code():
+    axiom = get_data_dico("axiom")
+    code = "/omega\n{\n    " + axiom + "\n} def\n"
+    append_eps_with(code)
+
+
+def create_draw_section_code():
+    append_eps_with("\n%%EndResource\n%%EndProlog\n")
+    coordinates = get_data_dico("parameters")["start"]
+    # x0 and y0
+    append_eps_with(str(coordinates[0]) + " " + str(coordinates[1]) + "\n")
+    append_eps_with(str(coordinates[2])) # angle
+    append_eps_with("\nT:init\n\n") # init section
+    append_eps_with(str(argv[2]) + "\nomega\n")
+    append_eps_with("%%EOF")
 
 
 
@@ -212,7 +227,9 @@ def main():
             operator_table = create_axiom_code(rule)
             if operator_table != -1: #we have operators therefore...
                 create_operator_code(operator_table, rule)
-
+    
+    create_omega_code()
+    create_draw_section_code()
     
     #checks if we have operators we need to create the code
     #for. #creates the axiom code and returns a list if 
