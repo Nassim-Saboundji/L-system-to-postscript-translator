@@ -9,8 +9,8 @@ An L-system is a set of rules and and axiom that is used to model the growth of 
 My program takes in json file that contains rules and an axiom and outputs a postscript file.
 This postscript file when opened presents a drawing that was made following the rules of that L-System in the json file.
 
-To run my program, simply type this command:
+To run my program, simply type this command after having pointed your terminal to the location where translator.py is:
 
-`python3 traducteur.py your_file.json [a number from 1 to ... which represents the number of iterations.]`
+`python3 translator.py your_file.json [a number from 1 to ... which represents the number of iterations.]`
 
 ![](https://i.ibb.co/g9hF6jL/202002021605511001.jpg)
