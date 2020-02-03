@@ -165,10 +165,11 @@ def create_rule_code(rule_symbol, version, only_one, title_number):
         append_eps_with("/" + rule_symbol + "\n")
         append_eps_with("{\n")
         append_eps_with("\tdup 0 eq \n")
-        append_eps_with("\tpop\n")
         append_eps_with("\t{\n")
-        append_eps_with("\t L:d T:draw \n")
+        append_eps_with("\t L:d T:draw\n")
+        append_eps_with("\t pop\n")
         append_eps_with("\t}{\n")
+        append_eps_with("\t\t1 sub\n")
         for code in code_table:
             append_eps_with("\t\t" + code + "\n")
         append_eps_with("\t}ifelse \n")

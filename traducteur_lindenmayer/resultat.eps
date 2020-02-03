@@ -89,10 +89,11 @@ realtime srand % graine aleatoire --- pendant les tests, utiliser une valeur fix
 /F
 {
 	dup 0 eq 
-	pop
 	{
-	 L:d T:draw 
+	 L:d T:draw
+	 pop
 	}{
+		1 sub
 		dup F
 		dup F
 		L:a neg T:turn
