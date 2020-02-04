@@ -1,13 +1,73 @@
-from constants import *
 import json
 from sys import argv ## to retrieve command line arguments
 
+############################################################# 
+# Translator code is below the template 
+template = """
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title: (L-System to PostScript)
+%%Creator: (moi)
+%%BoundingBox: 0 0 500 500 
+%%EndComments
 
+%%BeginProlog
+%%BeginResource: procset (graphisme tortue) 1.0 0
+
+% --------- definition of turtle graphics
+
+
+/T:move 
+{
+	0 translate
+} def
+
+/T:draw 
+{
+	newpath 
+	0 0 moveto
+	0 lineto
+	currentpoint 
+	stroke 
+	translate 
+} def
+
+/T:turn 
+{
+	rotate
+} def
+
+/T:init 
+{	
+	3 1 roll translate
+	rotate 
+} def
+
+%%EndResource
+
+%%BeginResource: procset (regle aleatoire) 1.0 0
+
+realtime srand 
+
+/L:rnd
+{
+	rand 
+	1 index length 
+	mod 
+	get 
+	cvx 
+	exec 
+} def
+
+%%EndResource
+
+
+"""
+############################################################################
 
 #This function create a x.eps file with the content we provide in the template
 #argument. 
 def create_eps_with(template):    	
-	f = open("resultat.eps", "w+")
+	f = open("results.eps", "w+")
 	f.write(template)
 	f.close()
 
@@ -15,7 +75,7 @@ def create_eps_with(template):
 #This function adds new content to an already existing lidenmayer.eps
 #file.
 def append_eps_with(content):
-    f = open("resultat.eps","a+")
+    f = open("results.eps","a+")
     f.write(content)
     f.close()
 
@@ -71,7 +131,7 @@ def create_axiom_code(symbol):
     else:
         rules = get_data_dico("rules")[axiom]
         operator_axiom = "/" + axiom
-    #print(rules)
+    
 
     if len(rules) > 1 :
         #will contain the different rules for the same axiom.
@@ -81,9 +141,8 @@ def create_axiom_code(symbol):
         for i in range(length):
             string = operator_axiom + str(i+1) 
             operator_table.append(string)
-        print(operator_table)    
-        
-        
+   
+            
         operator_options = " ".join(operator_table)
         #print(operator_options)
 
@@ -232,36 +291,10 @@ def main():
     create_omega_code()
     create_draw_section_code()
     
-    #checks if we have operators we need to create the code
-    #for. #creates the axiom code and returns a list if 
-    #there is multiple versions possible. if not
-    # operator_table = -1
-    #operator_table = create_axiom_code(None) 
-    #if operator_table != -1:
-    #    print("we have operators")
-    #    create_operator_code(operator_table, get_data_dico("axiom"))
-
-    #if len(get_data_dico("rules")) > 1:
-    #    print("there is something else we need to generate code for")
-    #    for rule in get_data_dico("rules"):
-    #        print(rule)
-    #        if rule == get_data_dico("axiom"):
-    #            print("skip it")
-    #        else:
-    #            print("create rule for it")
-    #            create_axiom_code(rule)
-
-    #print(create_rule_code("F", 0, False))
-    #print(create_rule_code("F", 0, True))
-    #print(action_detector("F"))
-    #append_eps_with(example_1)
-    #create_eps_with(original_lindenmayer)
-    #print(get_data_dico("axiom"))
-    #print(get_data_dico("rules"))
-    #print(get_data_dico("rules")["F"])
-
-
 
 # allows to read the main function first when the program is executed.
 if __name__ == '__main__':
     main()
+
+
+

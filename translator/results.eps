@@ -1,0 +1,128 @@
+
+%!PS-Adobe-3.0 EPSF-3.0
+%%Title: (L-System to PostScript)
+%%Creator: (moi)
+%%BoundingBox: 0 0 500 500 
+%%EndComments
+
+%%BeginProlog
+%%BeginResource: procset (graphisme tortue) 1.0 0
+
+% --------- definition of turtle graphics
+
+
+/T:move 
+{
+	0 translate
+} def
+
+/T:draw 
+{
+	newpath 
+	0 0 moveto
+	0 lineto
+	currentpoint 
+	stroke 
+	translate 
+} def
+
+/T:turn 
+{
+	rotate
+} def
+
+/T:init 
+{	
+	3 1 roll translate
+	rotate 
+} def
+
+%%EndResource
+
+%%BeginResource: procset (regle aleatoire) 1.0 0
+
+realtime srand 
+
+/L:rnd
+{
+	rand 
+	1 index length 
+	mod 
+	get 
+	cvx 
+	exec 
+} def
+
+%%EndResource
+
+
+/L:d 2 def
+/L:a 22.5 def
+/F
+{
+ 	dup
+ 	0 eq
+	{
+		L:d T:draw
+        pop
+	}
+	{
+		1 sub
+		[/F1 /F2 /F3] L:rnd
+	}ifelse
+        
+}def
+/F1
+{
+	dup F
+	gsave
+	L:a T:turn
+	dup F
+	grestore
+	dup F
+	gsave
+	L:a neg T:turn
+	dup F
+	grestore
+	F
+
+}def
+/F2
+{
+	dup F
+	gsave
+	L:a T:turn
+	dup F
+	grestore
+	F
+
+}def
+/F3
+{
+	dup F
+	gsave
+	L:a T:turn
+	dup F
+	grestore
+	dup F
+	gsave
+	L:a neg T:turn
+	dup F
+	grestore
+	F
+
+}def
+/omega
+{
+    F
+} def
+
+%%EndResource
+%%EndProlog
+250 0
+90
+T:init
+
+6
+omega
+%%EOF
