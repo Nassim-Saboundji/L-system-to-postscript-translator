@@ -13,4 +13,10 @@ To run my program, simply type this command after having pointed your terminal t
 
 `python3 translator.py your_file.json [a number from 1 to ... which represents the number of iterations.]`
 
+Example:
+`python3 translator.py examples/buisson.json 6`
+
+Depending on your machin you either have to type `python3` or you can just type `python` at the beginning of the command.
+**My program is made in python 3.
+
 ![](https://i.ibb.co/g9hF6jL/202002021605511001.jpg)
