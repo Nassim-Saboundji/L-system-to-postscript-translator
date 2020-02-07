@@ -22,5 +22,10 @@ Depending on your machin you either have to type `python3` or you can just type 
 ![](https://i.ibb.co/g9hF6jL/202002021605511001.jpg)
 
 Here are examples you can find the associated json file in the folder examples.
-buisson.json ![](https://i.ibb.co/qdMbFFc/buissonjson.png)
-plante.json ![](https://ibb.co/JsjbKhm)
+
+1. buisson.json
+
+![](https://i.ibb.co/qdMbFFc/buissonjson.png)
+2. plante.json 
+
+![](https://i.ibb.co/bK5yPfQ/plantejson.png)
