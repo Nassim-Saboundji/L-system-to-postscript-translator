@@ -16,7 +16,7 @@ To run my program, simply type this command after having pointed your terminal t
 Example:
 `python3 translator.py examples/buisson.json 6`
 
-Depending on your machin you either have to type `python3` or you can just type `python` at the beginning of the command.
+Depending on your machine you either have to type `python3` or you can just type `python` at the beginning of the command.
 **My program is made in python 3.
 
 Here are examples you can find the associated json file in the folder examples.
